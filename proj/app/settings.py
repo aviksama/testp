@@ -9,6 +9,8 @@ from __future__ import unicode_literals
 import os
 import base64
 import pymongo
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 
 environ = os.environ
@@ -24,3 +26,8 @@ MPASS = os.environ.get('MDBPASS', '')
 
 client = pymongo.MongoClient(f"mongodb+srv://{MUSER}:{MPASS}@cluster0.yvdzf.mongodb.net/DB?retryWrites=true&w=majority")
 db = client.DB
+
+PGUSER = os.environ.get('PGUSER', '')
+PGPASS = os.environ.get('PGPASS', '')
+engine = create_engine(f'postgresql+psycopg2://{PGUSER}:{PGPASS}@localhost/testp')
+Session = sessionmaker(bind=engine)

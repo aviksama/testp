@@ -1,13 +1,10 @@
-from __future__ import unicode_literals
 try:
     import ujson as json
 except ImportError:
     import json
 
-
-from bson.objectid import ObjectId
-
 from proj.app.base.api.main import Resource
+from proj.app import settings
 
 
 class LoginView(Resource):
