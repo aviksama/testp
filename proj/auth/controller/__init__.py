@@ -1,3 +1,4 @@
+from sqlalchemy import and_
 try:
     import ujson as json
 except ImportError:
@@ -6,11 +7,12 @@ except ImportError:
 from proj.app.base.api.main import Resource
 from proj.app import settings
 from proj.app.dbops import Location, Department, Category
-from sqlalchemy import and_
+from proj.auth.decorators import LoginRequired
 
 
 class GetLocations(Resource):
-
+    
+    @LoginRequired('admin')
     def get(self, *args, **kwargs):
         with settings.Session() as session:
             res = session.query(Location).with_entities(Location.id, Location.name)
@@ -19,6 +21,8 @@ class GetLocations(Resource):
 
 
 class GetDepartments(Resource):
+    
+    @LoginRequired('admin')
     def get(self, *args, **kwargs):
         try:
             location_id = int(kwargs['location_id'])
@@ -32,6 +36,8 @@ class GetDepartments(Resource):
 
 
 class GetCategories(Resource):
+    
+    @LoginRequired('admin')
     def get(self, *args, **kwargs):
         try:
             location_id = int(kwargs['location_id'])
